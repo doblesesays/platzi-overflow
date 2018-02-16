@@ -11,9 +11,14 @@
         <input matInput placeholder="Nombre" formControlName="name" id="name">
     </mat-form-field>
 
-    <mat-form-field>    
+    <mat-form-field>
         <input matInput placeholder="Apellido" formControlName="lastName" id="lastName">
     </mat-form-field>
 
     <button type="submit" mat-raised-button color="accent">Registrarse</button>
+
+    <p style="text-align: center">
+        ¿Ya tienes un usuario?
+        <a mat-button color="primary" [routerLink]="['/signin']">Iniciar sesión</a>
+    </p>
 </form>
