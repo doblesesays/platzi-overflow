@@ -24,15 +24,15 @@ export class QuestionDetailComponent implements OnInit {
         this.sub = this.route.params.subscribe(params => {
             this.questionService
                 .getQuestion(params.id)
-                .then((question: Question)=>{
-                    console.log(question);
+                .then((question: Question)=> {
                     this.question = question;
+                    this.loading = false;
                 });
 
         }); 
     }
 
     ngOnDestroy() {
-        this.sub.unsuscribe();
+        this.sub.unsubscribe();
     }
 }
