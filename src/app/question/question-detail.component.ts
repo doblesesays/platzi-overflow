@@ -1,18 +1,38 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Question } from './question.model';
+import { QuestionService } from "./question.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
     selector: 'app-question-detail',
     templateUrl: './question-detail.component.html',
-    styleUrls: ['./question-detail.component.css']
+    styleUrls: ['./question-detail.component.css'],
+    providers: [QuestionService]
 })
 
-export class QuestionDetailComponent {
-    question: Question = new Question(
-        'Esta es una pregunta',
-        "Esta es la descripcion de la pregunta. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris pellentesque nibh quis malesuada tincidunt. Etiam consectetur venenatis risus nec tincidunt. Nam et lacus bibendum, scelerisque libero suscipit, aliquet libero. Nullam vel ullamcorper lacus, quis venenatis orci. Phasellus at libero ligula. Duis et pulvinar purus, a euismod nunc. Nunc sit amet posuere quam. Nulla iaculis, purus blandit elementum ornare, dolor lorem interdum felis, in sagittis mauris massa at enim.",
-        new Date,
-        'devicon-android-plain' 
-    );
+export class QuestionDetailComponent implements OnInit {
+    question?: Question;
+    loading = true;
+    sub: any;
 
+    constructor(private questionService: QuestionService, private route: ActivatedRoute) {
+
+    }
+
+    ngOnInit() {
+
+        this.sub = this.route.params.subscribe(params => {
+            this.questionService
+                .getQuestion(params.id)
+                .then((question: Question)=>{
+                    console.log(question);
+                    this.question = question;
+                });
+
+        }); 
+    }
+
+    ngOnDestroy() {
+        this.sub.unsuscribe();
+    }
 }

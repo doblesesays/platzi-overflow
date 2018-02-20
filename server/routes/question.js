@@ -20,7 +20,12 @@ const question = {
 const questions = new Array(10).fill(question);
 
 // /api/questions
-app.get('/', (req, res) => res.status(200).json(questions));
+app.get('/', (req, res) => {
+    // setTimeout(() => {
+    //     res.status(200).json(questions)
+    // }, 2000);
+    res.status(200).json(questions)
+});
 
 // /api/questions/:id
 app.get('/:id', (req, res) => res.status(200).json(question));
