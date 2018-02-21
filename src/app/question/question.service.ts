@@ -1,3 +1,4 @@
+import { Answer } from './../answer/answer.model';
 import { environment } from './../../environments/environment';
 import { Question } from './question.model';
 import { Injectable } from "@angular/core";
@@ -36,6 +37,16 @@ export class QuestionService {
         const headers = new Headers({ 'Content-Type': 'application/json' });
 
         return this.http.post(this.questionsUrl, body, { headers })
+            .map((response: Response) => response.json())
+            .catch((error: Response) => Observable.throw(error.statusText));
+    }
+
+    addAnswer(answer: Answer) {
+        const body = JSON.stringify(answer);
+        const headers = new Headers({ 'Content-Type': 'application/json' });
+        const url = urljoin(this.questionsUrl, answer.question._id.toString(), 'answers')
+
+        return this.http.post(url, body, { headers })
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.statusText));
     }
