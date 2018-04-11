@@ -1,8 +1,11 @@
 import express from 'express';
 import Debug from 'debug';
+import jwt from 'jsonwebtoken'
 
 const app = express.Router()
 const debug = new Debug('platzi-overflow:auth')
+
+const secret = 'clavesecreta'
 
 const users = {
     firstName: 'Genessis',
@@ -36,6 +39,15 @@ app.post('/signin', (res, req, next) => {
         return handleLoginFailed(res)
     }
 
+    const token = jwt.sign({user}, secret, {expiresIn: 86400})
+    res.statusCode(200).json({
+        message: 'Login succeded',
+        toke,
+        userId: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email
+    })
 })
 
 function handleLoginFailed(res) {
