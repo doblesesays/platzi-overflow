@@ -1,18 +1,18 @@
 import { Observable } from 'rxjs/Observable';
 import { User } from './user.model';
 import {Injectable} from '@angular/core';
-import urljoin from 'url-join';
+import * as urljoin from 'url-join';
 import { environment } from '../../environments/environment';
 import { Headers, Http, Response } from '@angular/http';
 import { map } from 'rxjs/operator/map';
-
+import { Router } from "@angular/router";
 
 @Injectable()
 export class AuthService {
     currentUser?: User;
     usersUrl: string;
 
-    constructor(private http: Http) {
+    constructor(private http: Http, private router: Router) {
         this.usersUrl = urljoin(environment.apiUrl, 'auth');
         if (this.isLoggedIn()) {
             const { userId, email, firstName, lastName } = JSON.parse(localStorage.getItem('user'));
@@ -39,6 +39,7 @@ export class AuthService {
         this.currentUser = new User(email, null, firstName, lastName, userId);
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify({ userId, firstName, lastName, email }));
+        this.router.navigateByUrl('/');
     }
 
     isLoggedIn () {

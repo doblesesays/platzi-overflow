@@ -11,7 +11,7 @@ const users = {
     firstName: 'Genessis',
     lastName: 'Jimenez',
     email: 'genesis.jz.93@gmail.com',
-    password: '123456',
+    password: '0000',
     _id: 123
 }
 
