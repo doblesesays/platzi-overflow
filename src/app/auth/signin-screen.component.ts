@@ -12,7 +12,7 @@ export class SigninScreenComponent implements OnInit {
 
     signinForm: FormGroup;
 
-    constructor(private authSevice: AuthService) {}
+    constructor(private authService: AuthService) {}
 
     ngOnInit() {
         this.signinForm = new FormGroup({
@@ -28,11 +28,11 @@ export class SigninScreenComponent implements OnInit {
         if (this.signinForm.valid) {
             const {email, password} = this.signinForm.value;
             const user = new User(email, password);
-            this.authSevice.signin(user)
+            this.authService.signin(user)
                 .subscribe(
-                    this.authSevice.login,
+                    this.authService.login,
                     err => console.log(err)
                 );
         }
     }
-};
+}

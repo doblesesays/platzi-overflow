@@ -17,6 +17,6 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 app.use('/api/questions', question)
-app.use('api/auth', auth)
+app.use('/api/auth', auth)
 
 export default app
