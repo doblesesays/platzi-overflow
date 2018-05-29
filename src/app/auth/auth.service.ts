@@ -16,14 +16,14 @@ export class AuthService {
         this.usersUrl = urljoin(environment.apiUrl, 'auth');
         if (this.isLoggedIn()) {
             const { userId, email, firstName, lastName } = JSON.parse(localStorage.getItem('user'));
-            this.currentUser = new User(email, null, firstName, lastName, userId)
+            this.currentUser = new User(email, null, firstName, lastName, userId);
         }
     }
 
     signin(user:User) {
         const body = JSON.stringify(user);
         const headers = new Headers( {'Content-Type': 'application/json'} );
-        return this.http.post(urljoin(this.usersUrl, 'singin'), body, {headers})
+        return this.http.post(urljoin(this.usersUrl, 'signin'), body, {headers})
             .map((response: Response) => {
                 const json = response.json();
                 this.login(json);
