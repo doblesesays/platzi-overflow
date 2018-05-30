@@ -7,23 +7,24 @@ const debug = new Debug('platzi-overflow:auth')
 
 const secret = 'clavesecreta'
 
-const users = {
+const users = [{
     firstName: 'Genessis',
     lastName: 'Jimenez',
     email: 'genesis.jz.93@gmail.com',
     password: '0000',
     _id: 123
-}
+}]
 
-const findUserByEmail = e => users.find(({ email }) => email === e)
+//const findUserByEmail = e => users.find(({ email }) => email === e)
+
 function comparePasswords(providedPassword, userPassword) {
     return providedPassword === userPassword
 }
 
 // ESTO ES EQUIVALENTE A LA SENTENCIA DE ARRIBA
-// function findUserByEmail(email) {
-//     return users.find(user=> user.email === email)
-// }
+ function findUserByEmail(email) {
+     return users.find(user=> user.email === email)
+ }
 
 app.post('/signin', (req, res, next) => {
     const {email, password} = req.body
@@ -52,7 +53,7 @@ app.post('/signin', (req, res, next) => {
 
 function handleLoginFailed(res) {
     return res.status(401).json({
-        message: 'Login faild',
+        message: 'Login failed',
         error: 'email or password dont match'
     })
 }
