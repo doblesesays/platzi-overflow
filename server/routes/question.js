@@ -1,48 +1,16 @@
 import express from 'express'
+import { required, questionMiddleware, questionsMiddleware } from "../middleware";
+
 
 const app = express.Router()
 
-const currentUser = {
-    firstName: 'Genessis',
-    lastName: 'Jimenez',
-    email: 'genesis.jz.93@gmail.com',
-    password: '123456'
-}
-
-function questionMiddleware(req, res, next) {
-    const id = req.params.id;
-    req.question = questions.find(question => question._id === +id);
-    next();
-}
-
-function userMiddleware(req, res, next) {
-    req.user = currentUser;
-    next();
-}
-
-const question = {
-    _id: 1,
-    title: 'reutilizar componente',
-    description: 'esta es la descripcion de mi pregunta',
-    createdAt: new Date(),
-    icon: 'devicon-android-plain',
-    answers: [],
-    user: {
-        firstName: 'Genessis',
-        lastName: 'Jimenez',
-        email: 'genesis.jz.93@gmail.com',
-        password: '123456'
-    }
-}
-
-const questions = new Array(10).fill(question);
-
 // GET /api/questions
-app.get('/', (req, res) => {
+app.get('/', questionsMiddleware, (req, res) => {
     // setTimeout(() => {
     //     res.status(200).json(questions)
     // }, 2000);
-    res.status(200).json(questions)
+    console.log(req.questions)
+    res.status(200).json(req.questions)
 });
 
 // GET /api/questions/:id
@@ -51,7 +19,7 @@ app.get('/:id', questionMiddleware,  (req, res) => {
 });
 
 // POST /api/questions
-app.post('/', userMiddleware, (req, res) => {
+app.post('/', required, (req, res) => {
     const question = req.body
     question._id = +new Date()
     question.user = req.user
@@ -64,7 +32,7 @@ app.post('/', userMiddleware, (req, res) => {
 
 })
 
-app.post('/:id/answers', questionMiddleware, userMiddleware, (req, res) => {
+app.post('/:id/answers', required, questionMiddleware, (req, res) => {
     const answer = req.body
     const q = req.question
     answer.createdAt = new Date()
