@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import * as SmoothScroll from'smooth-scroll';
 import { Component, Input } from "@angular/core";
 import { NgForm } from "@angular/forms/src/directives/ng_form";
@@ -5,6 +6,7 @@ import { Answer} from '../answer/answer.model';
 import { Question } from "../question/question.model";
 import { User } from '../auth/user.model';
 import { QuestionService } from "../question/question.service";
+import { AuthService } from '../auth/auth.service';
 
 @Component({
     selector: 'app-answer-form',
@@ -21,11 +23,18 @@ export class AnswerFormComponent{
     @Input() question: Question;
     smoothScroll: SmoothScroll;
 
-    constructor(private questionService: QuestionService) {
+    constructor(
+        private questionService: QuestionService,
+        private authService: AuthService,
+        private router: Router,
+    ) {
         this.smoothScroll = SmoothScroll();
     }
 
     onSubmit(form: NgForm) {
+        if (!this.authService.isLoggedIn()) {
+            this.router.navigateByUrl('/signin');
+        }
         const answer = new Answer(
             form.value.description,
             this.question
@@ -37,8 +46,8 @@ export class AnswerFormComponent{
                         const anchor = document.querySelector( '#title' )
                         this.smoothScroll.animateScroll(anchor)
                     },
-                    error => console.log(error)
-                )
+                    this.authService.handleError,
+                );
         form.resetForm();
     }
 };
