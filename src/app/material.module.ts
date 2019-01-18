@@ -9,7 +9,7 @@ import { MatGridListModule } from "@angular/material/grid-list";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatMenuModule, MatSnackBarModule } from '@angular/material';
-
+import { MatTabsModule } from '@angular/material/tabs';
 
 const modules = [
     MatToolbarModule,
@@ -22,6 +22,7 @@ const modules = [
     MatProgressSpinnerModule,
     MatMenuModule,
     MatSnackBarModule,
+    MatTabsModule,
 ];
 
 @NgModule({

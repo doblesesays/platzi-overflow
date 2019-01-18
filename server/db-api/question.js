@@ -4,9 +4,11 @@ import { Question, Answer } from '../models'
 const debug = new Debug('platzi - overflow:db-api:question')
 
 export default {
-    findAll: () => {
+    findAll: (sort = '-createdAt') => {
         debug('find all questions')
-        return Question.find().populate('answers')
+        return Question.find()
+            .populate('answers')
+            .sort(sort)
     },
 
     findById: (_id) => {
