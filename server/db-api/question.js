@@ -10,7 +10,7 @@ export default {
     },
 
     findById: async (_id) => {
-        debug('find one question with id: ', id)
+        debug(`find one question with id ${_id}`)
         return await Question.findOne({ _id })
             .populate('user')
             .populate({
@@ -21,5 +21,11 @@ export default {
                     model: 'User',
                 }
             })
+    },
+
+    create: async (q) => {
+        debug(`creating question ${q}`)
+        const question = new Question(q);
+        return await question.save();
     }
 }
