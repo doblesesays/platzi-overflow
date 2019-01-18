@@ -1,17 +1,17 @@
 import Debug from 'debug'
-import { Question } from '../models'
+import { Question, Answer } from '../models'
 
 const debug = new Debug('platzi - overflow:db-api:question')
 
 export default {
-    findAll: async () => {
+    findAll: () => {
         debug('find all questions')
-        return await Question.find().populate('answers')
+        return Question.find().populate('answers')
     },
 
-    findById: async (_id) => {
+    findById: (_id) => {
         debug(`find one question with id ${_id}`)
-        return await Question.findOne({ _id })
+        return Question.findOne({ _id })
             .populate('user')
             .populate({
                 path: 'answers',
@@ -23,9 +23,17 @@ export default {
             })
     },
 
-    create: async (q) => {
+    create: (q) => {
         debug(`creating question ${q}`)
         const question = new Question(q);
-        return await question.save();
+        return question.save();
+    },
+
+    createAnswer: async (q, a) => {
+        const answer = new Answer(a);
+        const savedAnswer = await answer.save();
+        q.answers.push(savedAnswer);
+        await q.save();
+        return savedAnswer;
     }
 }
