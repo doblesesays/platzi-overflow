@@ -7,12 +7,14 @@
     "start": "concurrently -r \"npm run start:server\" \"npm run start:client\"",
     "start:server": "set NODE_ENV=development& set DEBUG=platzi-overflow* & nodemon server/index.js --exec babel-node",
     "start:client": "ng serve",
+    "start-prod": "set NODE_ENV=production& node server.js",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build": "ng build --prod",
-    "build:client": "ng build --environment=prod"
-    
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "ng build --environment=prod",
+    "build:server": "babel server --out-dir dist/server",
+    "postinstall": "npm run build"
   },
   "private": true,
   "dependencies": {
@@ -29,7 +31,9 @@
     "@angular/platform-browser": "^5.2.6",
     "@angular/platform-browser-dynamic": "^5.2.6",
     "@angular/router": "^5.2.6",
+    "@babel/polyfill": "^7.2.5",
     "angular2-moment": "^1.8.0",
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "concurrently": "^3.5.1",

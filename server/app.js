@@ -1,7 +1,7 @@
 import express from 'express'
 import { question, auth } from './routes'
 import bodyParser from 'body-parser'
-import { path } from "path";
+import path from "path";
 
 const app = express()
 
